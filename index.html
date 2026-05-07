@@ -783,6 +783,76 @@
       text-transform: uppercase;
     }
 
+    /* ── WEATHER ── */
+    .weather-wrap { margin-top: 5rem; }
+    .weather-card {
+      border: 1px solid rgba(201,168,76,0.18);
+      background: rgba(14,26,14,0.85);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .weather-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(107,26,26,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .weather-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .weather-location {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+    .weather-updated { font-size: 0.85rem; color: rgba(232,213,163,0.4); font-style: italic; }
+    .weather-current { display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .weather-temp-big { font-family: 'Playfair Display', serif; font-size: 5rem; color: var(--cream); line-height: 1; font-weight: 400; }
+    .weather-temp-big sup { font-size: 1.8rem; vertical-align: super; color: var(--champagne); }
+    .weather-current-info h4 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--cream); margin-bottom: 0.4rem; }
+    .weather-current-info p { font-size: 0.95rem; color: rgba(232,213,163,0.6); line-height: 1.6; }
+    .weather-stats { display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .weather-stat span { display: block; font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.3rem; }
+    .weather-stat p { font-size: 1rem; color: var(--champagne); }
+    .weather-divider { height: 1px; background: linear-gradient(to right, transparent, rgba(201,168,76,0.25), transparent); margin-bottom: 2rem; }
+    .weather-forecast { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; }
+    .forecast-day {
+      text-align: center;
+      padding: 1rem 0.5rem;
+      border: 1px solid rgba(201,168,76,0.08);
+      background: rgba(201,168,76,0.03);
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .forecast-day:hover { border-color: rgba(201,168,76,0.25); background: rgba(201,168,76,0.07); }
+    .forecast-day .f-day { font-family: 'Cinzel', serif; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase; margin-bottom: 0.5rem; }
+    .forecast-day .f-icon { font-size: 1.6rem; margin-bottom: 0.5rem; display: block; }
+    .forecast-day .f-high { font-size: 1.05rem; color: var(--cream); }
+    .forecast-day .f-low  { font-size: 0.85rem; color: rgba(232,213,163,0.5); }
+    .weather-loading { text-align: center; padding: 3rem; color: rgba(232,213,163,0.5); font-style: italic; }
+    .weather-error { display: none; text-align: center; padding: 2rem; color: rgba(232,213,163,0.5); font-style: italic; font-size: 0.95rem; }
+    .weather-refresh {
+      background: none;
+      border: 1px solid rgba(201,168,76,0.3);
+      color: rgba(201,168,76,0.7);
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      cursor: pointer;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .weather-refresh:hover { border-color: var(--gold); color: var(--gold); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 760px) {
       nav { gap: 1.5rem; }
@@ -793,6 +863,8 @@
       .gallery-cell:first-child { grid-row: 1/2; grid-column: 1/3; }
       .form-row { grid-template-columns: 1fr; }
       .schedule-list::before { left: 4.5rem; }
+      .weather-forecast { grid-template-columns: repeat(3, 1fr); }
+      .weather-temp-big { font-size: 3.5rem; }
     }
   </style>
 </head>
@@ -923,6 +995,44 @@
           </div>
           <p>Use code: WHITECURTIS</p>
           <p class="detail-sub">Book by November 1st<br/>0.2 miles from venue</p>
+        </div>
+      </div>
+
+      <!-- WEATHER WIDGET -->
+      <div class="weather-wrap">
+        <p class="section-label">Local Weather</p>
+        <h2>Gainesville, <em>Georgia</em></h2>
+        <div class="weather-card">
+          <div id="weather-loading" class="weather-loading">❄ &nbsp;Loading current weather…</div>
+          <div id="weather-error" class="weather-error">
+            Unable to load weather right now. <br/><br/>
+            <button class="weather-refresh" onclick="loadWeather()">Try Again</button>
+          </div>
+          <div id="weather-content" style="display:none">
+            <div class="weather-header">
+              <span class="weather-location">📍 Gainesville, GA · Hall County</span>
+              <div style="display:flex;align-items:center;gap:1rem;">
+                <span class="weather-updated" id="weather-time"></span>
+                <button class="weather-refresh" onclick="loadWeather()">↻ Refresh</button>
+              </div>
+            </div>
+            <div class="weather-current">
+              <div class="weather-temp-big" id="w-temp">--<sup>°F</sup></div>
+              <div class="weather-current-info">
+                <h4 id="w-desc">--</h4>
+                <p id="w-feel">Feels like --</p>
+                <p id="w-hilo">High -- · Low --</p>
+              </div>
+            </div>
+            <div class="weather-stats">
+              <div class="weather-stat"><span>Humidity</span><p id="w-humidity">--%</p></div>
+              <div class="weather-stat"><span>Wind</span><p id="w-wind">-- mph</p></div>
+              <div class="weather-stat"><span>Visibility</span><p id="w-vis">-- mi</p></div>
+              <div class="weather-stat"><span>UV Index</span><p id="w-uv">--</p></div>
+            </div>
+            <div class="weather-divider"></div>
+            <div class="weather-forecast" id="w-forecast"></div>
+          </div>
         </div>
       </div>
 
@@ -1205,6 +1315,79 @@
         document.getElementById('details').scrollIntoView({ behavior: 'smooth' });
       }, 800);
     }
+
+    // ── WEATHER ──
+    const WX_ICONS = {
+      0:'☀️',1:'☀️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
+      51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',
+      71:'🌨️',73:'🌨️',75:'❄️',77:'❄️',
+      80:'🌦️',81:'🌧️',82:'⛈️',
+      85:'🌨️',86:'❄️',
+      95:'⛈️',96:'⛈️',99:'⛈️'
+    };
+    const WX_DESC = {
+      0:'Clear Sky',1:'Mainly Clear',2:'Partly Cloudy',3:'Overcast',
+      45:'Foggy',48:'Icy Fog',
+      51:'Light Drizzle',53:'Drizzle',55:'Heavy Drizzle',
+      61:'Light Rain',63:'Rain',65:'Heavy Rain',
+      71:'Light Snow',73:'Snow',75:'Heavy Snow',77:'Snow Grains',
+      80:'Light Showers',81:'Showers',82:'Heavy Showers',
+      85:'Snow Showers',86:'Heavy Snow Showers',
+      95:'Thunderstorm',96:'Thunderstorm w/ Hail',99:'Heavy Thunderstorm'
+    };
+    const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+    async function loadWeather() {
+      document.getElementById('weather-loading').style.display = 'block';
+      document.getElementById('weather-content').style.display = 'none';
+      document.getElementById('weather-error').style.display = 'none';
+      try {
+        // Gainesville, GA coordinates
+        const lat = 34.2979, lon = -83.8241;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+          `&current=temperature_2m,apparent_temperature,weather_code,relative_humidity_2m,wind_speed_10m,visibility,uv_index` +
+          `&daily=weather_code,temperature_2m_max,temperature_2m_min` +
+          `&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch` +
+          `&timezone=America%2FNew_York&forecast_days=5`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('API error');
+        const d = await res.json();
+        const c = d.current;
+        const daily = d.daily;
+
+        document.getElementById('w-temp').innerHTML = `${Math.round(c.temperature_2m)}<sup>°F</sup>`;
+        document.getElementById('w-desc').textContent = WX_DESC[c.weather_code] || 'Unknown';
+        document.getElementById('w-feel').textContent = `Feels like ${Math.round(c.apparent_temperature)}°F`;
+        document.getElementById('w-hilo').textContent = `High ${Math.round(daily.temperature_2m_max[0])}° · Low ${Math.round(daily.temperature_2m_min[0])}°`;
+        document.getElementById('w-humidity').textContent = `${c.relative_humidity_2m}%`;
+        document.getElementById('w-wind').textContent = `${Math.round(c.wind_speed_10m)} mph`;
+        document.getElementById('w-vis').textContent = c.visibility >= 1000 ? `${(c.visibility/1609).toFixed(1)} mi` : `${c.visibility} m`;
+        document.getElementById('w-uv').textContent = c.uv_index ?? '--';
+        document.getElementById('weather-time').textContent = `Updated ${new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}`;
+
+        const forecastEl = document.getElementById('w-forecast');
+        forecastEl.innerHTML = '';
+        for (let i = 0; i < 5; i++) {
+          const date = new Date(daily.time[i] + 'T12:00:00');
+          const dayName = i === 0 ? 'Today' : DAYS[date.getDay()];
+          forecastEl.innerHTML += `
+            <div class="forecast-day">
+              <div class="f-day">${dayName}</div>
+              <span class="f-icon">${WX_ICONS[daily.weather_code[i]] || '🌡️'}</span>
+              <div class="f-high">${Math.round(daily.temperature_2m_max[i])}°</div>
+              <div class="f-low">${Math.round(daily.temperature_2m_min[i])}°</div>
+            </div>`;
+        }
+
+        document.getElementById('weather-loading').style.display = 'none';
+        document.getElementById('weather-content').style.display = 'block';
+      } catch(e) {
+        document.getElementById('weather-loading').style.display = 'none';
+        document.getElementById('weather-error').style.display = 'block';
+      }
+    }
+
+    loadWeather();
   </script>
 </body>
 </html>
