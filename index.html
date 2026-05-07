@@ -74,7 +74,7 @@
     }
 
     .hero-eyebrow { font-family: 'Cinzel', serif; font-size: 0.7rem; letter-spacing: 0.35em; color: var(--candle); text-transform: uppercase; margin-bottom: 2.5rem; animation: fadeUp 1.2s ease forwards; opacity: 0; text-shadow: 0 0 20px rgba(255,157,61,0.5); }
-    .hero-ampersand { display: block; font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(5rem, 15vw, 12rem); line-height: 0.85; color: transparent; -webkit-text-stroke: 1px rgba(212,168,67,0.35); letter-spacing: -0.02em; margin: 0.3rem 0; animation: fadeUp 1.2s 0.2s ease forwards; opacity: 0; }
+
     .hero-names { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 8vw, 6.5rem); font-weight: 400; line-height: 1.05; letter-spacing: 0.02em; color: var(--cream); animation: fadeUp 1.2s 0.1s ease forwards; opacity: 0; text-shadow: 0 2px 40px rgba(212,168,67,0.2); }
     .hero-names span { display: block; }
     .hero-names .last { color: var(--champagne); font-style: italic; }
@@ -251,7 +251,7 @@
       <span>Madison</span>
       <span class="last">&amp; Malcolm</span>
     </h1>
-    <div class="hero-ampersand">✦</div>
+
     <div class="hero-divider"><span class="hero-divider-icon">❄</span></div>
     <p class="hero-date">Friday, the Fourth of December &nbsp;·&nbsp; 2026</p>
     <p class="hero-venue">The Venue at Country Place Farms &nbsp;·&nbsp; Gainesville, GA</p>
@@ -275,7 +275,7 @@
             </div>
           </div>
           <div class="timeline-item">
-            <div class="timeline-dot">🌿</div>
+            <div class="timeline-dot">🎄</div>
             <div class="timeline-text">
               <strong>A December Evening</strong>
               <p>The Venue at Country Place Farms will be dressed in holiday splendor for a night you won't forget.</p>
@@ -321,7 +321,6 @@
           <span class="detail-icon">🌿</span>
           <h3>Reception</h3>
           <p>The Venue at Country Place Farms</p>
-          <p>Country Place Farms Rd<br/>Gainesville, GA</p>
           <p>6:00 PM — 9:00 PM</p>
           <p class="detail-sub">Cocktail hour at 5 PM<br/>Dinner at 6:00 PM</p>
         </div>
@@ -332,7 +331,7 @@
           <p>1189 Dawsonville Hwy NW<br/>Gainesville, GA</p>
           <p>Use code: WHITECURTIS</p>
           <p class="detail-sub">Book by November 1st<br/>0.2 miles from venue</p>
-          <a href="https://www.ihg.com/redirect?path=rates&amp;brandCode=EX&amp;localeCode=en%C2%AEionCode=1&amp;hotelCode=GVLGV&amp;checkInDate=03&amp;checkInMonthYear=112026&amp;checkOutDate=05&amp;checkOutMonthYear=112026&amp;_PMID=99801505&amp;GPC=WCE&amp;cn=no&amp;adjustMonth=false&amp;showApp=true&amp;monthIndex=00" target="_blank" class="btn-gold" style="display:inline-block; margin-top:1.2rem;">Book Your Room</a>
+          <a id="hotel-link" href="#" class="btn-gold" style="display:inline-block; margin-top:1.2rem;">Book Your Room</a>
         </div>
       </div>
 
@@ -370,20 +369,6 @@
         </div>
       </div>
 
-      <div class="wedding-party">
-        <p class="section-label">Wedding Party</p>
-        <h2>The people who <em>matter most</em></h2>
-        <div class="party-grid">
-          <div class="party-card"><div class="party-avatar">🎖️</div><h4>Dillon White</h4><p>Man of Honor</p></div>
-          <div class="party-card"><div class="party-avatar">💐</div><h4>Hailey Kluttz</h4><p>Bridesmaid</p></div>
-          <div class="party-card"><div class="party-avatar">💐</div><h4>Miranda Curtis</h4><p>Bridesmaid</p></div>
-          <div class="party-card"><div class="party-avatar">💐</div><h4>Sydney McKee</h4><p>Bridesmaid</p></div>
-          <div class="party-card"><div class="party-avatar">🤵</div><h4>Wesley Thompson</h4><p>Best Man</p></div>
-          <div class="party-card"><div class="party-avatar">🎩</div><h4>John Bell-Higgins</h4><p>Groomsman</p></div>
-          <div class="party-card"><div class="party-avatar">🎩</div><h4>Brandon Hammonds</h4><p>Groomsman</p></div>
-          <div class="party-card"><div class="party-avatar">🎩</div><h4>Trevor White</h4><p>Groomsman</p></div>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -465,6 +450,9 @@
   </footer>
 
   <script>
+    // Hotel booking link
+    document.getElementById('hotel-link').href = 'https://www.ihg.com/redirect?path=rates&brandCode=EX&localeCode=en&regionCode=1&hotelCode=GVLGV&checkInDate=03&checkInMonthYear=112026&checkOutDate=05&checkOutMonthYear=112026&_PMID=99801505&GPC=WCE&cn=no&adjustMonth=false&showApp=true&monthIndex=00';
+
     // Snowflakes
     (function() {
       const c = document.getElementById('snowflakes');
